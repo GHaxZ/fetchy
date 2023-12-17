@@ -15,12 +15,8 @@
   <br clear="both">
 </dl>
 
-<br>
-
 > [!NOTE]
 > The version you are seeing right now is still a very early version. There are still a bunch of features and system information missing.
-
-<br>
 
 ### Roadmap
 ---
@@ -31,8 +27,6 @@
 - [ ] Display storage data
 - [ ] Make binary available using `cargo install`
 - [ ] Pre-compile binaries for different platforms
-
-<br>
 
 ### Installation
 ---
