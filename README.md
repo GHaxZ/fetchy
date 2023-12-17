@@ -40,3 +40,8 @@ Here are the steps needed to install this tool:
 5. After you have done this there will be a compiled binary in the `/target/debug` folder.
 6. Put this binary into a directory that has been added to your path.
 7. Done! You can now run the `fetchy` command (you may have to restart your terminal).
+
+### Contributing
+---
+To contribute to this project you can open issues to report bugs or make a pull request if you want to improve or add functionality.
+
