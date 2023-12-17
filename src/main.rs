@@ -1,10 +1,9 @@
 mod system;
 mod printer;
+mod run;
 
 fn main() {
-    println!("Fetching data ...");
-    let sysinfo = system::get_info();
-
-
-    printer::print_sysinfo(&sysinfo);
+    run::run();
 }
+
+

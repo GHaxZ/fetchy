@@ -1,19 +1,10 @@
-// TODO get screen resolution
 // TODO get gpu information
 
 use std::env;
-use std::fmt::{Debug};
-use chrono;
 use chrono::{Local};
 use os_info::Bitness;
 use sysinfo::*;
-use whoami;
-use winit::error::EventLoopError;
 use winit::event_loop::EventLoop;
-use winit::monitor::MonitorHandle;
-
-use winit::window::{WindowBuilder};
-
 
 pub struct SystemInfo {
     pub user: String,
@@ -72,11 +63,10 @@ fn get_user() -> String {
 fn get_current_directory() -> String {
     match env::current_dir() {
         Ok(dir) => {
-            (
-                match dir.into_os_string().into_string() {
-                    Ok(dir_str) => { dir_str }
-                    Err(_) => { "/".to_string() }
-                })
+            match dir.into_os_string().into_string() {
+                Ok(dir_str) => { dir_str }
+                Err(_) => { "/".to_string() }
+            }
         }
         Err(_) => { "/".to_string() }
     }

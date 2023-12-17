@@ -1,13 +1,8 @@
-use crossterm::{execute};
 use crate::system::SystemInfo;
 use crossterm::style::{Stylize};
-use crossterm::terminal::{Clear, ClearType};
-use crossterm::cursor::{MoveUp};
 
+pub fn print_sysinfo(sys: SystemInfo) {
 
-pub fn print_sysinfo(sys: &SystemInfo) {
-    execute!(std::io::stdout(), Clear(ClearType::CurrentLine));
-    execute!(std::io::stdout(), MoveUp(1));
 
     println!("{}{}{} | {}",
         sys.user.as_str().red().bold(),
@@ -40,9 +35,13 @@ pub fn print_sysinfo(sys: &SystemInfo) {
         sys.screen_res
     );
 
-    println!("{}: {} {}C {}T @ {:.2}GHz",
+    println!("{}: {}",
         "CPU".red().bold(),
-        sys.cpu_name,
+        sys.cpu_name
+    );
+
+    println!("{}: {}C {}T @ {:.2}GHz",
+        "├ Details".red().bold(),
         sys.cpu_cores,
         sys.cpu_threads,
         sys.cpu_base_frequency as f32 / 1000.0
@@ -53,9 +52,13 @@ pub fn print_sysinfo(sys: &SystemInfo) {
         sys.cpu_utilization
     );
 
-    println!("{}: {}MB ({}MB swap)",
+    println!("{}: {}MB",
         "RAM".red().bold(),
-        sys.ram_total,
+        sys.ram_total
+    );
+
+    println!("{}: {}MB",
+        "├ Swap".red().bold(),
         sys.ram_swap
     );
 
