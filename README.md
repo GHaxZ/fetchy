@@ -43,5 +43,5 @@ Here are the steps needed to install this tool:
 
 ### Contributing
 ---
-To contribute to this project you can open issues to report bugs or make a pull request if you want to improve or add functionality.
+> To contribute to this project you can open issues to report bugs or make a pull request if you want to improve or add functionality.
 
