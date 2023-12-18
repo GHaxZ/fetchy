@@ -1,4 +1,4 @@
-use crate::system::SystemInfo;
+use crate::model::SystemInfo;
 use crossterm::style::{Stylize};
 
 pub fn print_sysinfo(sys: SystemInfo) {
@@ -30,9 +30,10 @@ pub fn print_sysinfo(sys: SystemInfo) {
         sys.uptime
     );
 
-    println!("{}: {}",
-        "Resolution".red().bold(),
-        sys.screen_res
+    println!("{}: {}x{}",
+             "Resolution".red().bold(),
+             sys.screen_res.width,
+             sys.screen_res.height
     );
 
     println!("{}: {}",
@@ -54,17 +55,31 @@ pub fn print_sysinfo(sys: SystemInfo) {
 
     println!("{}: {}MB",
         "RAM".red().bold(),
-        sys.ram_total
+        sys.ram_total / 1_000_000
     );
 
     println!("{}: {}MB",
         "├ Swap".red().bold(),
-        sys.ram_swap
+        sys.ram_swap / 1_000_000
     );
 
     println!("{}: {}MB - {:.1}%",
         "└ Used".red().bold(),
-        sys.ram_used,
+        sys.ram_used / 1_000_000,
         (sys.ram_used as f64 / sys.ram_total as f64) * 100.0
     );
+
+    println!("{}",
+        "Storage".red().bold()
+    );
+
+    for drive in sys.storage_drives {
+        println!("{} {} {}GB / {}GB - {:.1}%",
+            "└".red().bold(),
+            drive.drive_path.red().bold(),
+            drive.storage_used / 1_000_000_000,
+            drive.storage_total / 1_000_000_000,
+            (drive.storage_used as f64 / drive.storage_total as f64) * 100.0
+        );
+    }
 }
