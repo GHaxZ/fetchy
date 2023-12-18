@@ -5,7 +5,7 @@ pub fn print_sysinfo(sys: SystemInfo) {
 
 
     println!("{}{}{} | {}",
-        sys.user.as_str().red().bold(),
+        "GHaxZ".red().bold(),
         "@".bold(),
         sys.current_path.as_str().red().bold(),
         sys.time.as_str()
@@ -22,7 +22,7 @@ pub fn print_sysinfo(sys: SystemInfo) {
 
     println!("{}: {}",
         "Host".red().bold(),
-        sys.host
+        "GHaxZ-PC"
     );
 
     println!("{}: {}",
