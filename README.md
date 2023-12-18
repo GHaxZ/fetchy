@@ -3,7 +3,7 @@
   <p align="center"><b>A small command line system information tool written in Rust</b></p>
   
   <div>
-    <img align="left" width="40%" src="https://github.com/GHaxZ/fetchy/blob/master/imgs/preview.png" alt="Fetchy preview">
+    <img align="left" height="300" src="https://github.com/GHaxZ/fetchy/blob/master/imgs/preview.png" alt="Fetchy preview">
     <p>
     Fetchy is a small command line tool that displays basic system information in a neat way.
     It is inspired by <a href="https://github.com/dylanaraps/neofetch">neofetch</a>, but also wants to show more general information about the system. 
