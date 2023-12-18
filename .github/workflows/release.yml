@@ -7,6 +7,7 @@ jobs:
   release:
     name: release ${{ matrix.target }}
     runs-on: ubuntu-latest
+    if: github.event_name == 'release'
     strategy:
       fail-fast: false
       matrix:
