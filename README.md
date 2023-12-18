@@ -22,9 +22,9 @@
 ---
 ##### These are some features I'm currently planning on implementing
 
+- [x] Display storage data
 - [ ] Make colors customizable
 - [ ] Display GPU data
-- [ ] Display storage data
 - [ ] Make binary available using `cargo install`
 - [ ] Pre-compile binaries for different platforms
 
