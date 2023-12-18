@@ -37,7 +37,7 @@
 - Compiling the binary yourself using cargo.
 
 #### Downloading pre-comiled binary
-1. Download the correct binary from the [releases](https://github.com/GHaxZ/fetchy/releases) page.
+1. Download the correct binary from the [releases](https://github.com/GHaxZ/fetchy/releases) page (there are no MacOS binaries available yet).
 2. Extract the archive file and put the binary file into a directory that has been added to your path.
 3. Done! You can now run the `fetchy` command (you may have to restart your terminal).
 
