@@ -20,7 +20,7 @@
 
 ### Roadmap
 ---
-##### These are some features I'm currently planning on implementing
+#### These are some features I'm currently planning on implementing
 
 - [x] Display storage data
 - [x] Pre-compile binaries
@@ -32,9 +32,16 @@
 
 ### Installation
 ---
-##### Currently there are no pre-compiled binaries available. To use this tool you have to compile it yourself using cargo.
-Here are the steps needed to install this tool:
+#### There are currently 2 ways to install this tool:
+- Downloading a pre-compiled binary from the [releases](https://github.com/GHaxZ/fetchy/releases) page.
+- Compiling the binary yourself using cargo.
 
+#### Downloading pre-comiled binary
+1. Download the correct binary from the [releases](https://github.com/GHaxZ/fetchy/releases) page.
+2. Extract the archive file and put the binary file into a directory that has been added to your path.
+3. Done! You can now run the `fetchy` command (you may have to restart your terminal).
+
+#### Compiling yourself
 1. Create a new directory for the source code.
 2. Open a terminal in this directory.
 3. Run `git clone https://github.com/GHaxZ/fetchy/`.
