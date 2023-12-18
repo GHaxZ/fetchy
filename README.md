@@ -42,13 +42,12 @@
 3. Done! You can now run the `fetchy` command (you may have to restart your terminal).
 
 #### Compiling yourself
-1. Create a new directory for the source code.
-2. Open a terminal in this directory.
-3. Run `git clone https://github.com/GHaxZ/fetchy/`.
-4. Then run `cargo build`.
-5. After you have done this there will be a compiled binary in the `/target/debug` folder.
-6. Put this binary into a directory that has been added to your path.
-7. Done! You can now run the `fetchy` command (you may have to restart your terminal).
+1. Open a terminal in any directory where you want the source code to go.
+2. Run `git clone https://github.com/GHaxZ/fetchy/`.
+3. Then run `cargo build`.
+4. After you have done this there will be a compiled binary in the `/target/debug` folder.
+5. Put this binary into a directory that has been added to your path.
+6. Done! You can now run the `fetchy` command (you may have to restart your terminal).
 
 ### Contributing
 ---
