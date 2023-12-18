@@ -23,10 +23,12 @@
 ##### These are some features I'm currently planning on implementing
 
 - [x] Display storage data
+- [x] Pre-compile binaries
 - [ ] Make colors customizable
 - [ ] Display GPU data
 - [ ] Make binary available using `cargo install`
-- [ ] Pre-compile binaries for different platforms
+- [ ] Pre-compile binary for MacOS
+
 
 ### Installation
 ---
