@@ -2,7 +2,7 @@ use crossterm::execute;
 use crate::{printer, system};
 use crossterm::terminal::{Clear, ClearType};
 use crossterm::cursor::{MoveUp};
-pub fn run() {
+pub fn run_normal() {
     println!("Fetching data ...");
 
     let sysinfo = system::get_info();
@@ -10,6 +10,10 @@ pub fn run() {
     execute!(std::io::stdout(), Clear(ClearType::CurrentLine)).unwrap_or(());
     execute!(std::io::stdout(), MoveUp(1)).unwrap_or(());
 
-
     printer::print_sysinfo(sysinfo);
+}
+
+
+pub fn update_color_config() {
+
 }
