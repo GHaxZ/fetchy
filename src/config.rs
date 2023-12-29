@@ -41,6 +41,15 @@ pub fn set_accent_color(color: RGB) -> std::io::Result<()> {
     Ok(())
 }
 
+pub fn reset_accent_color() -> std::io::Result<()> {
+    let mut config_file = get_config_file(true)?;
+
+    config_file.seek(std::io::SeekFrom::Start(0))?;
+    serde_json::to_writer(&config_file, &Config { accent_color: None })?;
+
+    Ok(())
+}
+
 pub fn get_accent_color() -> Color {
     match get_config_file(false) {
         Ok(config_file) => {

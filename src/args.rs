@@ -1,7 +1,7 @@
 use clap::{Arg, Command, Error};
 use clap::error::{ErrorKind};
 use crate::model::RGB;
-use crate::run;
+use crate::{config, run};
 
 pub fn parse() {
     let command = Command::new("fetchy")
@@ -12,7 +12,7 @@ pub fn parse() {
             .short('c')
             .long("color")
             .value_name("R,G,B")
-            .help("Sets the accent color of the tool"));
+            .help("Sets the accent color of the tool. Can be reset using the \"default\" value."));
 
     let args = command.clone().get_matches();
 
@@ -24,6 +24,18 @@ pub fn parse() {
         match args.get_one::<String>("color") {
             None => {}
             Some(color_arg) => {
+                if color_arg == "default" {
+                    match config::reset_accent_color() {
+                        Ok(_) => {
+                            println!("Successfully reset the accent color to its default value.");
+                            return;
+                        }
+                        Err(_) => {
+                            Error::new(ErrorKind::InvalidValue).with_cmd(&command).exit();
+                        }
+                    }
+                }
+
                 let arg_list: Vec<&str> = color_arg.split(',').collect();
 
                 if arg_list.len() != 3 {
