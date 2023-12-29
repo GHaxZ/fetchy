@@ -1,7 +1,11 @@
 use crossterm::execute;
-use crate::{printer, system};
+use crate::{config, printer, system};
 use crossterm::terminal::{Clear, ClearType};
 use crossterm::cursor::{MoveUp};
+use crossterm::style::Color;
+use crate::model::RGB;
+
+
 pub fn run_normal() {
     println!("Fetching data ...");
 
@@ -14,6 +18,6 @@ pub fn run_normal() {
 }
 
 
-pub fn update_color_config() {
-
+pub fn update_color_config(color: RGB) {
+    config::set_accent_color(color);
 }

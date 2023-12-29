@@ -1,6 +1,8 @@
 
 use clap::{Arg, Command, Error};
 use clap::error::{ErrorKind};
+use crossterm::style::Color;
+use crate::model::RGB;
 use crate::run;
 
 pub fn parse() {
@@ -30,16 +32,21 @@ pub fn parse() {
                     Error::new(ErrorKind::WrongNumberOfValues).with_cmd(&command).exit();
                 }
 
+                let mut arg_parse: Vec<u8> = vec![];
                 for arg in arg_list.iter() {
                     match arg.parse::<u8>() {
-                        Ok(_) => {}
+                        Ok(a) => { arg_parse.push(a)}
                         Err(_) => {
                             Error::new(ErrorKind::InvalidValue).with_cmd(&command).exit();
                         }
                     }
                 }
 
-                println!("Set the color to {},{},{}", arg_list.get(0).unwrap(), arg_list.get(1).unwrap(), arg_list.get(2).unwrap());
+                run::update_color_config(RGB {
+                    r: arg_parse.get(0).unwrap().to_owned(),
+                    g: arg_parse.get(1).unwrap().to_owned(),
+                    b: arg_parse.get(2).unwrap().to_owned(),
+                })
             }
         }
     }

@@ -9,6 +9,12 @@ pub struct Drive {
     pub storage_used: u64
 }
 
+pub struct RGB {
+    pub r: u8,
+    pub g: u8,
+    pub b: u8
+}
+
 pub struct SystemInfo {
     pub user: String,
     pub current_directory: String,
