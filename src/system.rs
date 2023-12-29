@@ -5,7 +5,7 @@ use chrono::Local;
 use os_info::Bitness;
 use sysinfo::*;
 use winit::event_loop::EventLoop;
-use crate::model::{Dimension, Drive, GPU, SystemInfo};
+use crate::model::{Dimension, Drive, SystemInfo};
 
 pub fn get_info() -> SystemInfo {
     let mut sys = System::new_all();

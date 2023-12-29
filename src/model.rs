@@ -18,11 +18,6 @@ pub struct RGB {
     pub b: u8
 }
 
-pub struct GPU {
-    pub name: String,
-    pub memory: u64
-}
-
 pub struct SystemInfo {
     pub user: String,
     pub current_directory: String,

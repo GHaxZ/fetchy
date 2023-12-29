@@ -2,7 +2,7 @@
 
 use std::env;
 use std::fs::{File, OpenOptions};
-use std::io::{Read, Seek, Write};
+use std::io::{Seek};
 use crossterm::style::Color;
 use serde::{Deserialize, Serialize};
 use crate::model::RGB;
