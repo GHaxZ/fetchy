@@ -2,7 +2,6 @@ use crossterm::execute;
 use crate::{config, printer, system};
 use crossterm::terminal::{Clear, ClearType};
 use crossterm::cursor::{MoveUp};
-use crossterm::style::Color;
 use crate::model::RGB;
 
 
@@ -18,6 +17,6 @@ pub fn run_normal() {
 }
 
 
-pub fn update_color_config(color: RGB) {
-    config::set_accent_color(color);
+pub fn update_color_config(color: RGB) -> std::io::Result<()> {
+    config::set_accent_color(color)
 }

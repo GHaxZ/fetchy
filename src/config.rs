@@ -1,57 +1,62 @@
 // TODO: Read config file, improve error handling
 
-use serde_json::{json, Value};
+use std::env;
 use std::fs::{File, OpenOptions};
-use std::io::{Read, Write};
+use std::io::{Read, Seek, Write};
 use crossterm::style::Color;
+use serde::{Deserialize, Serialize};
 use crate::model::RGB;
 
-fn get_config_file(create: bool) -> std::io::Result<File> {
+#[derive(Serialize, Deserialize)]
+struct Config {
+    accent_color: Option<RGB>,
+}
+
+fn get_config_file(write: bool) -> std::io::Result<File> {
+    let mut path = env::current_exe()?;
+    path.pop();
+    path.push("fetchy_config.json");
+
     OpenOptions::new()
         .read(true)
-        .write(true)
-        .create(create)
-        .open("fetchy_config.json")
+        .write(write)
+        .create(write)
+        .truncate(write)
+        .open(path)
 }
 
-fn write_to_json(mut json: Value, content: Value) -> Value {
-    if json.as_object().unwrap().contains_key("accent_color") {
-        *json.as_object_mut().unwrap().get_mut("accent_color").unwrap() = content;
-    } else {
-        json.as_object_mut().unwrap().insert("accent_color".to_string(), content);
-    }
+pub fn set_accent_color(color: RGB) -> std::io::Result<()> {
+    let mut config_file = get_config_file(true)?;
 
-    json
-}
+    let mut config: Config = match serde_json::from_reader(&config_file) {
+        Ok(config) => config,
+        Err(_) => Config { accent_color: None },
+    };
 
-pub fn set_accent_color(color: RGB) {
-    match get_config_file(true) {
-        Ok(mut config) => {
-            let mut content = String::new();
-            config.read_to_string(&mut content).unwrap();
+    config.accent_color = Some(color);
 
-            let json: Value = serde_json::from_str(&content).unwrap() ;
+    config_file.seek(std::io::SeekFrom::Start(0))?;
+    serde_json::to_writer(&config_file, &config)?;
 
-            let result = write_to_json(json, json!({
-                "r": color.r,
-                "g": color.g,
-                "b": color.b
-            }));
-
-            config.write_all(serde_json::to_string(&result).unwrap().as_bytes()).unwrap();
-        }
-        Err(_) => {
-
-        }
-    }
-
+    Ok(())
 }
 
 pub fn get_accent_color() -> Color {
     match get_config_file(false) {
-        Ok(config) => {
-            //Color::Rgb {}
-            Color::Red
+        Ok(config_file) => {
+            let config: Config = match serde_json::from_reader(config_file) {
+                Ok(config) => config,
+                Err(_) => Config { accent_color: None },
+            };
+
+            match config.accent_color {
+                Some(color) => Color::Rgb {
+                    r: color.r,
+                    g: color.g,
+                    b: color.b,
+                },
+                None => Color::Red, // Default color
+            }
         }
         Err(_) => {
             Color::Red // Default color

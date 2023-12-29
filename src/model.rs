@@ -1,3 +1,5 @@
+use serde::{Deserialize, Serialize};
+
 pub struct Dimension {
     pub width: i32,
     pub height: i32
@@ -9,10 +11,16 @@ pub struct Drive {
     pub storage_used: u64
 }
 
+#[derive(Serialize, Deserialize)]
 pub struct RGB {
     pub r: u8,
     pub g: u8,
     pub b: u8
+}
+
+pub struct GPU {
+    pub name: String,
+    pub memory: u64
 }
 
 pub struct SystemInfo {

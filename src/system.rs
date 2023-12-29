@@ -5,7 +5,7 @@ use chrono::Local;
 use os_info::Bitness;
 use sysinfo::*;
 use winit::event_loop::EventLoop;
-use crate::model::{Dimension, Drive, SystemInfo};
+use crate::model::{Dimension, Drive, GPU, SystemInfo};
 
 pub fn get_info() -> SystemInfo {
     let mut sys = System::new_all();
@@ -164,6 +164,19 @@ fn get_cpu_threads(sys: &System) -> u32 {
 fn get_cpu_utilization(sys: &System) -> f32 {
     sys.global_cpu_info().cpu_usage()
 }
+
+/*fn get_gpus() -> Vec<GPU> {
+    let mut vec: Vec<GPU> = Vec::new();
+
+    for device in Device::all() {
+        vec.push(GPU {
+            name: device.name(),
+            memory: device.memory(),
+        })
+    }
+
+    vec
+}*/
 
 fn get_storage_drives(sys: &System) -> Vec<Drive> {
     let mut vec: Vec<Drive> = Vec::new();
