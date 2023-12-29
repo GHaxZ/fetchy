@@ -6,7 +6,7 @@ use crate::{config, run};
 pub fn parse() {
     let command = Command::new("fetchy")
         .author("GHaxZ")
-        .version("0.1.1")
+        .version("0.1.2")
         .about("A small command line system information tool")
         .arg(Arg::new("color")
             .short('c')
