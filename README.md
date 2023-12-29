@@ -2,9 +2,9 @@
   <p align="center"><img height="120" src="https://github.com/GHaxZ/fetchy/blob/master/imgs/logo.png" alt="Fetchy logo"></p>
   <p align="center"><b>A small command line system information tool written in Rust</b></p>
   
-  <div>
-    <img height="300" src="https://github.com/GHaxZ/fetchy/blob/master/imgs/preview.png" alt="Fetchy preview">
-    <img height="300" src="https://github.com/GHaxZ/fetchy/blob/master/imgs/preview2.png" alt="Fetchy preview">
+  <div align="center">
+    <img height="250" src="https://github.com/GHaxZ/fetchy/blob/master/imgs/preview.png" alt="Fetchy preview">
+    <img height="250" src="https://github.com/GHaxZ/fetchy/blob/master/imgs/preview2.png" alt="Fetchy preview">
   </div>
 </dl>
 
