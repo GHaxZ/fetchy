@@ -30,16 +30,27 @@ It is also written in Rust to make information gathering as fast and efficient a
 
 ### Installation
 ---
-#### There are currently 2 ways to install this tool:
-- Downloading a pre-compiled binary from the [releases](https://github.com/GHaxZ/fetchy/releases) page.
-- Compiling the binary yourself using cargo.
+#### There are currently 3 ways to install this tool:
+- (Recommended) Installing the tool using the `cargo install` command. (cargo required)
+- Downloading a pre-compiled binary from the [releases](https://github.com/GHaxZ/fetchy/releases) page. (cargo not required)
+- Compiling the binary yourself using cargo. (cargo required)
 
-#### Downloading pre-comiled binary
+#### Which one should you choose
+- The first and also recommended way is using the `cargo install` command. This ensures the program gets compiled correctly for your specific system and automatically adds the binary to your path. Use this if you have cargo installed.
+- If you don't have cargo installed on your system, you need to download a pre-compiled binary from the [releases](https://github.com/GHaxZ/fetchy/releases) page (there are no MacOS binaries available yet). You need to add the binary to your path manually and may encounter issues when running the tool, since it was not compiled for your specific system.
+- You can also compile the program yourself from your local source code using `cargo build`. You still need to add the binary to your path manually. You can do it this way if you like, but using the first recommended way is easier.
+
+#### (Recommended) Installing using cargo (cargo required)
+1. Open up your terminal and enter the following command: `cargo install --git https://github.com/GHaxZ/fetchy/`
+2. Then run the command and wait for cargo to finish compiling the program.
+3. Done! Cargo has automatically added the binary to your path. You can now run the `fetchy` command (you may have to restart your terminal).
+
+#### Downloading pre-comiled binary (cargo not required)
 1. Download the correct binary from the [releases](https://github.com/GHaxZ/fetchy/releases) page (there are no MacOS binaries available yet).
 2. Extract the archive file and put the binary file into a directory that has been added to your path.
 3. Done! You can now run the `fetchy` command (you may have to restart your terminal).
 
-#### Compiling yourself
+#### Compiling yourself (cargo required)
 1. Open a terminal in any directory where you want the source code to go.
 2. Run `git clone https://github.com/GHaxZ/fetchy/`.
 3. Then run `cargo build`.
