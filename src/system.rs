@@ -165,19 +165,6 @@ fn get_cpu_utilization(sys: &System) -> f32 {
     sys.global_cpu_info().cpu_usage()
 }
 
-/*fn get_gpus() -> Vec<GPU> {
-    let mut vec: Vec<GPU> = Vec::new();
-
-    for device in Device::all() {
-        vec.push(GPU {
-            name: device.name(),
-            memory: device.memory(),
-        })
-    }
-
-    vec
-}*/
-
 fn get_storage_drives(sys: &System) -> Vec<Drive> {
     let mut vec: Vec<Drive> = Vec::new();
 

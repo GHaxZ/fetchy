@@ -1,5 +1,5 @@
 use crossterm::execute;
-use crate::{config, printer, system};
+use crate::{config, system};
 use crossterm::terminal::{Clear, ClearType};
 use crossterm::cursor::{MoveUp};
 use crate::model::RGB;
@@ -13,7 +13,7 @@ pub fn run_normal() {
     execute!(std::io::stdout(), Clear(ClearType::CurrentLine)).unwrap_or(());
     execute!(std::io::stdout(), MoveUp(1)).unwrap_or(());
 
-    printer::print_sysinfo(sysinfo);
+    println!("{sysinfo}")
 }
 
 
