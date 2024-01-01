@@ -1,5 +1,3 @@
-// TODO get gpu information
-
 use std::env;
 use chrono::Local;
 use os_info::Bitness;

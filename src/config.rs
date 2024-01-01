@@ -1,5 +1,3 @@
-// TODO: Read config file, improve error handling
-
 use std::env;
 use std::fs::{File, OpenOptions};
 use std::io::{Seek};
