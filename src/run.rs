@@ -1,5 +1,4 @@
 use std::env;
-use std::fmt::Error;
 use crossterm::execute;
 use crate::{config, system};
 use crossterm::terminal::{Clear, ClearType};
