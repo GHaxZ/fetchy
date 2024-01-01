@@ -1,3 +1,5 @@
+use std::env;
+use std::fmt::Error;
 use crossterm::execute;
 use crate::{config, system};
 use crossterm::terminal::{Clear, ClearType};
@@ -19,4 +21,12 @@ pub fn run_normal() {
 
 pub fn update_color_config(color: RGB) -> std::io::Result<()> {
     config::set_accent_color(color)
+}
+
+pub fn open_directory() -> std::io::Result<()>{
+    let mut path = env::current_exe()?;
+    path.pop();
+
+    opener::open(&path).map_err(|e| std::io::Error::new(std::io::ErrorKind::Other, e))?;
+    Ok(())
 }

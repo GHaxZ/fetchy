@@ -1,7 +1,9 @@
-use clap::{Arg, Command, Error};
+use clap::{Arg, ArgAction, Command, Error};
 use clap::error::{ErrorKind};
-use crate::model::RGB;
 use crate::{config, run};
+use crate::model::RGB;
+
+// TODO: improve argument parsing
 
 pub fn parse() {
     let command = Command::new("fetchy")
@@ -12,15 +14,25 @@ pub fn parse() {
             .short('c')
             .long("color")
             .value_name("R,G,B")
-            .help("Sets the accent color of the tool. Can be reset using the \"default\" value."));
+            .help("Sets the accent color of the tool. Can be reset using the \"default\" value."))
+        .arg(Arg::new("dir")
+            .short('d')
+            .long("dir")
+            .action(ArgAction::SetTrue)
+            .help("Open the directory fetchy is installed in.")
+        );
+
 
     let args = command.clone().get_matches();
 
-    if !args.args_present() {
-        run::run_normal()
-    }
-
-    if args.contains_id("color") {
+    if args.get_flag("dir") {
+        match run::open_directory() {
+            Ok(_) => {}
+            Err(_) => {
+                Error::new(ErrorKind::Io).with_cmd(&command).exit();
+            }
+        }
+    } else if args.contains_id("color") {
         match args.get_one::<String>("color") {
             None => {}
             Some(color_arg) => {
@@ -59,7 +71,7 @@ pub fn parse() {
                 match run::update_color_config(RGB {
                     r: color.0,
                     g: color.1,
-                    b: color.2
+                    b: color.2,
                 }) {
                     Ok(_) => {
                         println!("Successfully changed the accent color to {},{},{}", color.0, color.1, color.2)
@@ -70,5 +82,7 @@ pub fn parse() {
                 }
             }
         }
+    } else {
+        run::run_normal();
     }
 }

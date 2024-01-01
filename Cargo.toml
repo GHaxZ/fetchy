@@ -17,3 +17,4 @@ sysinfo = "0.29.11"
 whoami = "1.4.1"
 winit = "0.29.4"
 serde = { version = "1.0.193", features = ["derive"] }
+opener = "0.6.1"
