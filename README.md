@@ -27,6 +27,12 @@ It is also written in Rust to make information gathering as fast and efficient a
 - [ ] Display GPU data
 - [ ] Pre-compiled binary for MacOS
 
+#### And these are some internal code changes that are planned
+
+- [ ] Changing configuration file type from .json to .toml
+- [ ] Storing the configuration file in conventional places instead of next to binary
+- [ ] Improve argument parsing
+- [ ] Improve error handling
 
 ### Installation
 ---
