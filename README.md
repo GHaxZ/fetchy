@@ -83,13 +83,13 @@ It should tell you that the accent color has been changed, and after running the
 
 _You can also reset the accent color by running the `fetchy --color default` command._
 
-
+> [!WARNING]
+> Custom colors should be supported on most modern os versions. If you are using an older os however, the colors may not work as expected.
 
 #### Opening the save directory
 To open the directory fetchy is saved in use the `--dir` argument: `fetchy --dir`
 
-> [!WARNING]
-> Custom colors should be supported on most modern os versions. If you are using an older os however, the colors may not work as expected.
+
 
 ### Contributing
 ---
