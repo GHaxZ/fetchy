@@ -24,9 +24,9 @@ It is also written in Rust to make information gathering as fast and efficient a
 - [x] Display storage data
 - [x] Pre-compiled binaries
 - [x] Make colors customizable
-- [ ] Display total network usage (usage since last boot)
+- [x] Display total network usage (usage since last boot)
+- [x] Display battery data
 - [ ] Display current network usage (usage per second)
-- [ ] Display battery data
 - [ ] Display GPU data
 - [ ] Improve Design
 - [ ] Pre-compiled binary for MacOS
