@@ -8,7 +8,7 @@ use crate::model::Rgb;
 pub fn parse() {
     let command = Command::new("fetchy")
         .author("GHaxZ")
-        .version("0.1.2")
+        .version("0.1.3")
         .about("A small command line system information tool")
         .arg(Arg::new("color")
             .short('c')
