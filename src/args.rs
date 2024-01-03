@@ -1,7 +1,7 @@
 use clap::{Arg, ArgAction, Command, Error};
 use clap::error::{ErrorKind};
 use crate::{config, run};
-use crate::model::RGB;
+use crate::model::Rgb;
 
 // TODO: improve argument parsing
 
@@ -68,7 +68,7 @@ pub fn parse() {
                                            arg_parse.get(1).unwrap().to_owned(),
                                            arg_parse.get(2).unwrap().to_owned());
 
-                match run::update_color_config(RGB {
+                match run::update_color_config(Rgb {
                     r: color.0,
                     g: color.1,
                     b: color.2,

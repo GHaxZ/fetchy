@@ -3,11 +3,11 @@ use std::fs::{File, OpenOptions};
 use std::io::{Seek};
 use crossterm::style::Color;
 use serde::{Deserialize, Serialize};
-use crate::model::RGB;
+use crate::model::Rgb;
 
 #[derive(Serialize, Deserialize)]
 struct Config {
-    accent_color: Option<RGB>,
+    accent_color: Option<Rgb>,
 }
 
 fn get_config_file(write: bool) -> std::io::Result<File> {
@@ -23,7 +23,7 @@ fn get_config_file(write: bool) -> std::io::Result<File> {
         .open(path)
 }
 
-pub fn set_accent_color(color: RGB) -> std::io::Result<()> {
+pub fn set_accent_color(color: Rgb) -> std::io::Result<()> {
     let mut config_file = get_config_file(true)?;
 
     let mut config: Config = match serde_json::from_reader(&config_file) {

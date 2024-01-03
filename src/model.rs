@@ -1,7 +1,9 @@
 use std::fmt::{Display, Formatter};
+use battery::State;
+use battery::units::time::second;
 use crossterm::style::Stylize;
 use serde::{Deserialize, Serialize};
-use crate::config;
+use crate::{config, helper};
 
 pub struct Dimension {
     pub width: i32,
@@ -14,8 +16,21 @@ pub struct Drive {
     pub storage_used: u64
 }
 
+pub struct Network {
+    pub network_name: String,
+    pub network_up: u64,
+    pub network_down: u64
+}
+
+pub struct Battery {
+    pub current_load: u64,
+    pub max_load: u64,
+    pub current_state: State,
+    pub until_empty_or_full: Option<battery::units::Time>
+}
+
 #[derive(Serialize, Deserialize)]
-pub struct RGB {
+pub struct Rgb {
     pub r: u8,
     pub g: u8,
     pub b: u8
@@ -31,7 +46,9 @@ pub struct SystemInfo {
     pub os_bits: String,
     pub host: String,
     pub uptime: String,
+    pub network: Network,
     pub screen_res: Dimension,
+    pub batteries: Option<Vec<Battery>>,
     pub cpu_name: String,
     pub cpu_cores: u32,
     pub cpu_threads: u32,
@@ -39,8 +56,8 @@ pub struct SystemInfo {
     pub cpu_utilization: f32,
     pub storage_drives: Vec<Drive>,
     pub ram_total: u64,
-    pub ram_swap: u64,
     pub ram_used: u64,
+    pub ram_swap: u64,
 }
 
 impl Display for SystemInfo {
@@ -75,11 +92,50 @@ impl Display for SystemInfo {
                              self.uptime
         ).as_str());
 
+        str.push_str(format!("\n{}: {}",
+                             "Network".with(color).bold(),
+                             self.network.network_name
+        ).as_str());
+
+        str.push_str(format!("\n{}: {}MB ↑ {}MB ↓",
+                             "└ Total usage".with(color).bold(),
+                             self.network.network_up / 1_000_100,
+                             self.network.network_down / 1_000_000
+        ).as_str());
+
         str.push_str(format!("\n{}: {}x{}",
                              "Resolution".with(color).bold(),
                              self.screen_res.width,
                              self.screen_res.height
         ).as_str());
+
+        if let Some(batteries) = &self.batteries {
+            for battery in batteries.iter(){
+                let mut charge_info = String::new();
+
+                if battery.until_empty_or_full.is_some() {
+                    let time = helper::sec_to_h_m_str(battery.until_empty_or_full.unwrap().get::<second>() as i64);
+                    if battery.current_state == State::Charging {
+                        charge_info.push_str(format!("{} until full", time).as_str());
+                    } else if battery.current_state == State::Discharging {
+                        charge_info.push_str(format!("{} until empty", time).as_str());
+                    }
+                }
+
+                str.push_str(format!("\n{}: {}Wh / {}Wh - {:.0}%",
+                                     "Battery".with(color).bold(),
+                                     battery.current_load,
+                                     battery.max_load,
+                                     (battery.current_load as f64 / battery.max_load as f64) * 100.0
+                ).as_str());
+
+                str.push_str(format!("\n{}: {:?}{}",
+                                     "└ State".with(color).bold(),
+                                     battery.current_state,
+                                     if !charge_info.is_empty() {format!(", {}", charge_info)} else {"".to_string()}
+                ).as_str());
+            }
+        }
 
         str.push_str(format!("\n{}: {}",
                              "CPU".with(color).bold(),
@@ -90,7 +146,7 @@ impl Display for SystemInfo {
                              "├ Details".with(color).bold(),
                              self.cpu_cores,
                              self.cpu_threads,
-                             self.cpu_base_frequency as f32 / 1000.0
+                             self.cpu_base_frequency as f32 / 1000.0,
         ).as_str());
 
         str.push_str(format!("\n{}: {:.1}%",
@@ -104,15 +160,15 @@ impl Display for SystemInfo {
 
         ).as_str());
 
-        str.push_str(format!("\n{}: {}MB",
-                             "├ Swap".with(color).bold(),
-                             self.ram_swap / 1_000_000
-        ).as_str());
-
         str.push_str(format!("\n{}: {}MB - {:.1}%",
-                             "└ Used".with(color).bold(),
+                             "├ Used".with(color).bold(),
                              self.ram_used / 1_000_000,
                              (self.ram_used as f64 / self.ram_total as f64) * 100.0
+        ).as_str());
+
+        str.push_str(format!("\n{}: {}MB",
+                             "└ Swap".with(color).bold(),
+                             self.ram_swap / 1_000_000
         ).as_str());
 
         str.push_str(format!("\n{}",

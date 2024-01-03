@@ -1,37 +1,44 @@
 use std::env;
+use std::ops::Add;
+use battery::State;
+use battery::units::energy::watt_hour;
+use battery::units::Time;
+use sysinfo::{CpuExt, DiskExt, NetworkExt, NetworksExt, System, SystemExt};
 use chrono::Local;
 use os_info::Bitness;
-use sysinfo::*;
 use winit::event_loop::EventLoop;
-use crate::model::{Dimension, Drive, SystemInfo};
+use crate::helper;
+use crate::model::{Battery, Dimension, Drive, Network, SystemInfo};
 
 pub fn get_info() -> SystemInfo {
-    let mut sys = System::new_all();
-    sys.refresh_all();
-    sys.refresh_cpu();
+    let mut sysinfo = System::new_all();
+    sysinfo.refresh_all();
+    sysinfo.refresh_cpu();
     std::thread::sleep(System::MINIMUM_CPU_UPDATE_INTERVAL);
-    sys.refresh_cpu();
+    sysinfo.refresh_cpu();
 
     SystemInfo {
         user: get_user(),
         current_directory: get_current_directory(),
         current_path: get_current_path(),
         time: get_time(),
-        os: get_os(&sys),
-        os_version: get_os_version(&sys),
+        os: get_os(&sysinfo),
+        os_version: get_os_version(&sysinfo),
         os_bits: get_os_bits(),
-        host: get_host(&sys),
-        uptime: get_uptime(&sys),
+        host: get_host(&sysinfo),
+        network: get_network(&sysinfo),
+        uptime: get_uptime(&sysinfo),
         screen_res: get_screen_res(),
-        cpu_name: get_cpu_name(&sys),
-        cpu_cores: get_cpu_cores(&sys),
-        cpu_threads: get_cpu_threads(&sys),
-        cpu_base_frequency: get_cpu_base_frequency(&sys),
-        cpu_utilization: get_cpu_utilization(&sys),
-        storage_drives: get_storage_drives(&sys),
-        ram_total: get_ram_total(&sys),
-        ram_swap: get_ram_swap(&sys),
-        ram_used: get_ram_used(&sys),
+        batteries: get_battery(),
+        cpu_name: get_cpu_name(&sysinfo),
+        cpu_cores: get_cpu_cores(&sysinfo),
+        cpu_threads: get_cpu_threads(&sysinfo),
+        cpu_base_frequency: get_cpu_base_frequency(&sysinfo),
+        cpu_utilization: get_cpu_utilization(&sysinfo),
+        storage_drives: get_storage_drives(&sysinfo),
+        ram_total: get_ram_total(&sysinfo),
+        ram_swap: get_ram_swap(&sysinfo),
+        ram_used: get_ram_used(&sysinfo),
     }
 }
 
@@ -107,7 +114,31 @@ fn get_host(sys: &System) -> String {
 
 fn get_uptime(sys: &System) -> String {
     let duration = sys.uptime();
-    format!("{}:{:02}:{:02}", duration / 3600, (duration % 3600) / 60, duration % 60)
+    helper::sec_to_h_m_s_str(duration as i64)
+}
+
+fn get_network(sys: &System) -> Network{
+    let mut sorted_networks = sys.networks().iter()
+        .collect::<Vec<_>>();
+    sorted_networks.sort_unstable_by(|a, b| {
+        let a_total = a.1.total_transmitted().add(a.1.total_received());
+        let b_total = b.1.total_transmitted().add(b.1.total_received());
+        let comparison = b_total.cmp(&a_total);
+        if comparison == std::cmp::Ordering::Equal {
+            a.0.len().cmp(&b.0.len())
+        } else {
+            comparison
+        }
+    });
+
+    let network = sorted_networks.first().unwrap().to_owned();
+
+    Network {
+        network_name: network.0.to_string(),
+        network_up: network.1.total_transmitted(),
+        network_down: network.1.total_received()
+    }
+
 }
 
 fn get_screen_res() -> Dimension {
@@ -134,6 +165,37 @@ fn get_screen_res() -> Dimension {
                 height: 0,
             }
         }
+    }
+}
+
+fn get_battery() -> Option<Vec<Battery>> {
+    let mut vec: Vec<Battery> = Vec::new();
+
+    if let Ok(manager) = battery::Manager::new() {
+        if let Ok(batteries) = manager.batteries() {
+            for battery in batteries.flatten() {
+                let mut time: Option<Time> = None;
+
+                if battery.state() == State::Discharging {
+                    time = battery.time_to_empty()
+                } else if battery.state() == State::Charging {
+                    time = battery.time_to_full()
+                }
+
+                vec.push(Battery {
+                    current_load: battery.energy().get::<watt_hour>() as u64,
+                    max_load: battery.energy_full().get::<watt_hour>() as u64,
+                    current_state: battery.state(),
+                    until_empty_or_full: time
+                })
+            }
+        }
+    }
+
+    if vec.is_empty() {
+        None
+    } else {
+        Some(vec)
     }
 }
 
@@ -186,13 +248,11 @@ fn get_ram_total(sys: &System) -> u64 {
     sys.total_memory()
 }
 
-fn get_ram_swap(sys: &System) -> u64 {
-    sys.total_swap()
-}
-
 fn get_ram_used(sys: &System) -> u64 {
     sys.used_memory()
 }
 
-
+fn get_ram_swap(sys: &System) -> u64 {
+    sys.total_swap()
+}
 
