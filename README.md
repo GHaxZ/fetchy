@@ -24,7 +24,11 @@ It is also written in Rust to make information gathering as fast and efficient a
 - [x] Display storage data
 - [x] Pre-compiled binaries
 - [x] Make colors customizable
+- [ ] Display total network usage (usage since last boot)
+- [ ] Display current network usage (usage per second)
+- [ ] Display battery data
 - [ ] Display GPU data
+- [ ] Improve Design
 - [ ] Pre-compiled binary for MacOS
 
 #### And these are some internal code changes that are planned
@@ -83,13 +87,13 @@ It should tell you that the accent color has been changed, and after running the
 
 _You can also reset the accent color by running the `fetchy --color default` command._
 
-
+> [!WARNING]
+> Custom colors should be supported on most modern os versions. If you are using an older os however, the colors may not work as expected.
 
 #### Opening the save directory
 To open the directory fetchy is saved in use the `--dir` argument: `fetchy --dir`
 
-> [!WARNING]
-> Custom colors should be supported on most modern os versions. If you are using an older os however, the colors may not work as expected.
+
 
 ### Contributing
 ---
