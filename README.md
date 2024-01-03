@@ -24,7 +24,10 @@ It is also written in Rust to make information gathering as fast and efficient a
 - [x] Display storage data
 - [x] Pre-compiled binaries
 - [x] Make colors customizable
+- [ ] Display Network data
+- [ ] Display Battery data
 - [ ] Display GPU data
+- [ ] Improve Design
 - [ ] Pre-compiled binary for MacOS
 
 #### And these are some internal code changes that are planned
