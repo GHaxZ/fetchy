@@ -5,8 +5,8 @@ mod config;
 mod args;
 mod helper;
 
-fn main() {pars
-    args::e();
+fn main() {
+    args::parse();
 }
 
 
