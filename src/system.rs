@@ -121,8 +121,8 @@ fn get_network(sys: &System) -> Network{
     let mut sorted_networks = sys.networks().iter()
         .collect::<Vec<_>>();
     sorted_networks.sort_unstable_by(|a, b| {
-        let a_total = a.1.total_transmitted().add(a.1.total_received());
-        let b_total = b.1.total_transmitted().add(b.1.total_received());
+        let a_total = a.1.transmitted().add(a.1.received());
+        let b_total = b.1.transmitted().add(b.1.received());
         let comparison = b_total.cmp(&a_total);
         if comparison == std::cmp::Ordering::Equal {
             a.0.len().cmp(&b.0.len())
