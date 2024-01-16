@@ -26,9 +26,9 @@ It is also written in Rust to make information gathering as fast and efficient a
 - [x] Make colors customizable
 - [x] Display total network usage (usage since last established connection)
 - [x] Display battery data
+- [x] Display GPU data
 - [ ] Display current network usage (usage per second) + improve current network adapter detection
-- [ ] Display GPU data
-- [ ] Improve Design
+- [ ] Design overhaul
 - [ ] Pre-compiled binary for MacOS
 
 #### And these are some internal code changes that are planned
