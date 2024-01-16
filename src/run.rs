@@ -1,18 +1,14 @@
 use std::env;
-use crossterm::execute;
 use crate::{config, system};
-use crossterm::terminal::{Clear, ClearType};
-use crossterm::cursor::{MoveUp};
+use spinoff::{Color, Spinner, spinners};
 use crate::model::Rgb;
 
-
 pub fn run_normal() {
-    println!("Fetching data ...");
+    let mut spinner = Spinner::new(spinners::Aesthetic, "Fetching data".to_string(), Color::White);
 
     let sysinfo = system::get_info();
 
-    execute!(std::io::stdout(), Clear(ClearType::CurrentLine)).unwrap_or(());
-    execute!(std::io::stdout(), MoveUp(1)).unwrap_or(());
+    spinner.clear();
 
     println!("{sysinfo}")
 }

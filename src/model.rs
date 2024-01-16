@@ -3,11 +3,18 @@ use battery::State;
 use battery::units::time::second;
 use crossterm::style::Stylize;
 use serde::{Deserialize, Serialize};
+use wgpu::DeviceType;
 use crate::{config, helper};
 
 pub struct Dimension {
     pub width: i32,
     pub height: i32
+}
+
+pub struct Gpu {
+    pub name: String,
+    pub gpu_type: DeviceType,
+    pub driver: String,
 }
 
 pub struct Drive {
@@ -54,6 +61,7 @@ pub struct SystemInfo {
     pub cpu_threads: u32,
     pub cpu_base_frequency: u64,
     pub cpu_utilization: f32,
+    pub gpus: Vec<Gpu>,
     pub storage_drives: Vec<Drive>,
     pub ram_total: u64,
     pub ram_used: u64,
@@ -153,6 +161,27 @@ impl Display for SystemInfo {
                              "└ Utilization".with(color).bold(),
                              self.cpu_utilization
         ).as_str());
+
+        for gpu in self.gpus.iter() {
+            let mut type_str = String::new();
+
+            if gpu.gpu_type == DeviceType::DiscreteGpu {
+                type_str.push_str("Discrete GPU");
+            } else if gpu.gpu_type == DeviceType::IntegratedGpu {
+                type_str.push_str("Integrated GPU");
+            }
+
+            str.push_str(format!("\n{}: {} ({})",
+                                 "GPU".with(color).bold(),
+                                 gpu.name,
+                                 type_str
+            ).as_str());
+
+            str.push_str(format!("\n{}: {}",
+                                 "└ Driver".with(color).bold(),
+                                 gpu.driver
+            ).as_str());
+        }
 
         str.push_str(format!("\n{}: {}MB",
                              "RAM".with(color).bold(),

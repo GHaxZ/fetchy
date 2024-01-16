@@ -6,9 +6,10 @@ use battery::units::Time;
 use sysinfo::{CpuExt, DiskExt, NetworkExt, NetworksExt, System, SystemExt};
 use chrono::Local;
 use os_info::Bitness;
+use wgpu::{Backends, InstanceDescriptor};
 use winit::event_loop::EventLoop;
 use crate::helper;
-use crate::model::{Battery, Dimension, Drive, Network, SystemInfo};
+use crate::model::{Battery, Dimension, Drive, Gpu, Network, SystemInfo};
 
 pub fn get_info() -> SystemInfo {
     let mut sysinfo = System::new_all();
@@ -35,6 +36,7 @@ pub fn get_info() -> SystemInfo {
         cpu_threads: get_cpu_threads(&sysinfo),
         cpu_base_frequency: get_cpu_base_frequency(&sysinfo),
         cpu_utilization: get_cpu_utilization(&sysinfo),
+        gpus: get_gpus(),
         storage_drives: get_storage_drives(&sysinfo),
         ram_total: get_ram_total(&sysinfo),
         ram_swap: get_ram_swap(&sysinfo),
@@ -223,6 +225,24 @@ fn get_cpu_threads(sys: &System) -> u32 {
 
 fn get_cpu_utilization(sys: &System) -> f32 {
     sys.global_cpu_info().cpu_usage()
+}
+
+fn get_gpus() -> Vec<Gpu> {
+    let mut vec: Vec<Gpu> = Vec::new();
+
+    let ins = wgpu::Instance::new(InstanceDescriptor::default());
+
+    for adapter in ins.enumerate_adapters(Backends::VULKAN) {
+        let info = adapter.get_info();
+
+        vec.push(Gpu {
+            name: info.name,
+            gpu_type: info.device_type,
+            driver: info.driver_info
+        });
+    }
+
+    vec
 }
 
 fn get_storage_drives(sys: &System) -> Vec<Drive> {
