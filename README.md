@@ -29,7 +29,7 @@ It is also written in Rust to make information gathering as fast and efficient a
 - [x] Display GPU data
 - [ ] Display current network usage (usage per second) + improve current network adapter detection
 - [ ] Design overhaul
-- [ ] Pre-compiled binary for MacOS
+- [x] Pre-compiled binary for MacOS
 
 #### And these are some internal code changes that are planned
 
