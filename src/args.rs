@@ -3,12 +3,13 @@ use clap::error::{ErrorKind};
 use crate::{config, run};
 use crate::model::Rgb;
 
+const FETCHY_VERSION: Option<&str> = option_env!("CARGO_PKG_VERSION");
 // TODO: improve argument parsing
 
 pub fn parse() {
     let command = Command::new("fetchy")
         .author("GHaxZ")
-        .version("0.1.4")
+        .version(FETCHY_VERSION.unwrap_or("dev"))
         .about("A small command line system information tool")
         .arg(Arg::new("color")
             .short('c')
