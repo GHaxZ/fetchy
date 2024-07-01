@@ -231,18 +231,18 @@ impl Display for SystemInfo {
 
         str.push_str(
             format!(
-                "\n{}: {}GB",
+                "\n{}: {}MB",
                 "RAM".with(color).bold(),
-                self.ram_total / 1_000_000_000
+                self.ram_total / 1_000_000
             )
             .as_str(),
         );
 
         str.push_str(
             format!(
-                "\n{}: {}GB - {:.1}%",
-                "├─ Used".with(color).bold(),
-                self.ram_used / 1_000_000_000,
+                "\n{}: {}MB - {:.1}%",
+                "├ Used".with(color).bold(),
+                self.ram_used / 1_000_000,
                 (self.ram_used as f64 / self.ram_total as f64) * 100.0
             )
             .as_str(),
@@ -250,9 +250,9 @@ impl Display for SystemInfo {
 
         str.push_str(
             format!(
-                "\n{}: {}GB",
-                "└─ Swap".with(color).bold(),
-                self.ram_swap / 1_000_000_000
+                "\n{}: {}MB",
+                "└ Swap".with(color).bold(),
+                self.ram_swap / 1_000_000
             )
             .as_str(),
         );
