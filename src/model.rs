@@ -48,7 +48,6 @@ pub struct Rgb {
 
 pub struct SystemInfo {
     pub user: String,
-    pub current_directory: String,
     pub current_path: String,
     pub time: String,
     pub os: String,
@@ -57,7 +56,7 @@ pub struct SystemInfo {
     pub host: String,
     pub uptime: String,
     pub networks: Vec<Network>,
-    pub screen_res: Dimension,
+    pub screen_resolutions: Vec<Dimension>,
     pub batteries: Option<Vec<Battery>>,
     pub cpu_name: String,
     pub cpu_cores: u32,
@@ -134,15 +133,15 @@ impl Display for SystemInfo {
             }
         }
 
-        str.push_str(
-            format!(
-                "\n{}: {}x{}",
-                "Resolution".with(color).bold(),
-                self.screen_res.width,
-                self.screen_res.height
-            )
-            .as_str(),
-        );
+        str.push_str(&format!(
+            "\n{}: {}",
+            "Resolution".with(color).bold(),
+            self.screen_resolutions
+                .iter()
+                .map(|screen_res| format!("{}x{}", screen_res.width, screen_res.height))
+                .collect::<Vec<_>>()
+                .join(", ")
+        ));
 
         if let Some(batteries) = &self.batteries {
             for battery in batteries.iter() {

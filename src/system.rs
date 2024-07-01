@@ -19,7 +19,6 @@ pub fn get_info() -> SystemInfo {
 
     SystemInfo {
         user: get_user(),
-        current_directory: get_current_directory(),
         current_path: get_current_path(),
         time: get_time(),
         os: get_os(),
@@ -28,7 +27,7 @@ pub fn get_info() -> SystemInfo {
         host: get_host(),
         networks: get_networks(),
         uptime: get_uptime(),
-        screen_res: get_screen_res(),
+        screen_resolutions: get_screen_res(),
         batteries: get_battery(),
         cpu_name: get_cpu_name(&sysinfo),
         cpu_cores: get_cpu_cores(&sysinfo),
@@ -45,16 +44,6 @@ pub fn get_info() -> SystemInfo {
 
 fn get_user() -> String {
     whoami::realname()
-}
-
-fn get_current_directory() -> String {
-    match env::current_dir() {
-        Ok(dir) => match dir.into_os_string().into_string() {
-            Ok(dir_str) => dir_str,
-            Err(_) => "/".to_string(),
-        },
-        Err(_) => "/".to_string(),
-    }
 }
 
 fn get_current_path() -> String {
@@ -129,23 +118,21 @@ fn get_networks() -> Vec<Network> {
     vec
 }
 
-fn get_screen_res() -> Dimension {
-    match EventLoop::new() {
-        Ok(event) => match event.primary_monitor() {
-            None => Dimension {
-                width: 0,
-                height: 0,
-            },
-            Some(monitor) => Dimension {
-                width: monitor.size().width as i32,
-                height: monitor.size().height as i32,
-            },
-        },
-        Err(_) => Dimension {
-            width: 0,
-            height: 0,
-        },
+fn get_screen_res() -> Vec<Dimension> {
+    let mut resolutions: Vec<Dimension> = vec![];
+
+    if let Ok(event_loop) = EventLoop::new() {
+        let monitors = event_loop.available_monitors();
+        for monitor in monitors {
+            let size = monitor.size();
+            resolutions.push(Dimension {
+                width: size.width as i32,
+                height: size.height as i32,
+            });
+        }
     }
+
+    resolutions
 }
 
 fn get_battery() -> Option<Vec<Battery>> {
